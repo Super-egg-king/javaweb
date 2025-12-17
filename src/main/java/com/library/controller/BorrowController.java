@@ -89,7 +89,8 @@ public class BorrowController {
         try {
             borrowRecordService.returnBook(recordId);
         } catch (Exception e) {
-            // 处理异常
+            // 记录异常并继续
+            System.err.println("归还图书失败: " + e.getMessage());
         }
         return "redirect:/borrow/current";
     }
