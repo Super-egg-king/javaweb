@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图书列表 - 图书云借阅系统</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            background: #f5f5f5;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        
+        .header h1 {
+            font-size: 24px;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        
+        .page-header {
+            background: white;
+            padding: 20px 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .page-header h2 {
+            color: #333;
+        }
+        
+        .book-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .book-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            transition: transform 0.3s;
+        }
+        
+        .book-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .book-card h3 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        
+        .book-info {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+        
+        .book-info div {
+            margin-bottom: 5px;
+        }
+        
+        .book-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 8px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 14px;
+            border: none;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+        
+        .btn:hover {
+            opacity: 0.8;
+        }
+        
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+        
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+        
+        .btn-warning {
+            background: #ffc107;
+            color: #333;
+        }
+        
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            margin-right: 5px;
+        }
+        
+        .badge-success {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .badge-warning {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .student-badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <div style="display: flex; align-items: center;">
+                <h1>📚 图书云借阅系统</h1>
+                <span class="student-badge">
+                    开发者：张三 (2021001)
+                </span>
+            </div>
+            <div class="nav-links">
+                <a href="/home">首页</a>
+                <a href="/books/recommended">新书推荐</a>
+                <a href="/borrow/current">当前借阅</a>
+                <a href="/logout">退出</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="page-header">
+            <h2>📖 图书列表</h2>
+            <div th:if="${user.role == 'ADMIN'}">
+                <a href="/books/add" class="btn btn-primary">+ 添加图书</a>
+            </div>
+        </div>
+        
+        <div class="book-grid">
+            <div th:each="book : ${books}" class="book-card">
+                <h3 th:text="${book.title}">书名</h3>
+                <div class="book-info">
+                    <div><strong>作者：</strong><span th:text="${book.author}">作者</span></div>
+                    <div><strong>ISBN：</strong><span th:text="${book.isbn}">ISBN</span></div>
+                    <div><strong>出版社：</strong><span th:text="${book.publisher}">出版社</span></div>
+                    <div><strong>分类：</strong><span th:text="${book.category}">分类</span></div>
+                    <div>
+                        <strong>库存：</strong>
+                        <span th:if="${book.availableCopies > 0}" class="badge badge-success">
+                            可借 <span th:text="${book.availableCopies}">0</span>/<span th:text="${book.totalCopies}">0</span>
+                        </span>
+                        <span th:if="${book.availableCopies == 0}" class="badge badge-warning">
+                            无库存
+                        </span>
+                    </div>
+                    <div th:if="${book.recommended}">
+                        <span class="badge" style="background: #ffd700; color: #333;">⭐ 推荐</span>
+                    </div>
+                </div>
+                
+                <div class="book-actions">
+                    <form th:if="${book.availableCopies > 0 && user.role == 'USER'}" 
+                          th:action="@{/borrow/book/{id}(id=${book.id})}" method="post" style="display: inline;">
+                        <button type="submit" class="btn btn-success">借阅</button>
+                    </form>
+                    
+                    <div th:if="${user.role == 'ADMIN'}">
+                        <a th:href="@{/books/edit/{id}(id=${book.id})}" class="btn btn-warning">编辑</a>
+                        <a th:href="@{/books/delete/{id}(id=${book.id})}" 
+                           class="btn btn-danger" 
+                           onclick="return confirm('确定要删除这本书吗？')">删除</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
