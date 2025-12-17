@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>主页 - 图书云借阅系统</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            background: #f5f5f5;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        
+        .header h1 {
+            font-size: 24px;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .student-badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+        
+        .btn-logout {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 8px 20px;
+            border: 1px solid white;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background 0.3s;
+        }
+        
+        .btn-logout:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        
+        .welcome-section {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .welcome-section h2 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .welcome-section p {
+            color: #666;
+        }
+        
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .menu-card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        
+        .menu-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .menu-card .icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+        
+        .menu-card h3 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .menu-card p {
+            color: #666;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <h1>📚 图书云借阅系统</h1>
+            <div class="user-info">
+                <div class="student-badge">
+                    <span th:text="${user.realName}">用户</span>
+                    <span th:if="${user.studentId}" th:text="'(' + ${user.studentId} + ')'"></span>
+                    <span th:if="${user.role == 'ADMIN'}" style="margin-left: 5px;">👑</span>
+                </div>
+                <a href="/logout" class="btn-logout">退出登录</a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="welcome-section">
+            <h2>欢迎回来！</h2>
+            <p>请选择您要使用的功能</p>
+        </div>
+        
+        <div class="menu-grid">
+            <a href="/books/recommended" class="menu-card">
+                <div class="icon">🌟</div>
+                <h3>新书推荐</h3>
+                <p>查看最新推荐的优质图书</p>
+            </a>
+            
+            <a href="/books" class="menu-card">
+                <div class="icon">📖</div>
+                <h3>图书列表</h3>
+                <p>浏览所有可借阅的图书</p>
+            </a>
+            
+            <a href="/borrow/current" class="menu-card">
+                <div class="icon">📚</div>
+                <h3>当前借阅</h3>
+                <p>查看您当前借阅的图书</p>
+            </a>
+            
+            <a href="/borrow/history" class="menu-card">
+                <div class="icon">📋</div>
+                <h3>借阅记录</h3>
+                <p>查看历史借阅记录</p>
+            </a>
+            
+            <a th:if="${user.role == 'ADMIN'}" href="/books/add" class="menu-card">
+                <div class="icon">➕</div>
+                <h3>添加图书</h3>
+                <p>向系统中添加新图书</p>
+            </a>
+            
+            <a th:if="${user.role == 'ADMIN'}" href="/borrow/all" class="menu-card">
+                <div class="icon">📊</div>
+                <h3>所有借阅</h3>
+                <p>管理所有用户的借阅记录</p>
+            </a>
+        </div>
+    </div>
+</body>
+</html>
