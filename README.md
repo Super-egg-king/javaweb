@@ -29,6 +29,7 @@
 
 - **后端框架：** Spring Boot 2.7.14
 - **数据库：** MySQL 8.0
+- **数据库驱动：** MySQL Connector/J 8.2.0（已修复安全漏洞）
 - **ORM框架：** Spring Data JPA / Hibernate
 - **模板引擎：** Thymeleaf
 - **构建工具：** Maven
