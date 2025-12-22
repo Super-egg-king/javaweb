@@ -49,8 +49,8 @@ javaweb/
 
 ### Security Considerations
 
-- Always sanitize user input to prevent SQL injection
-- Use parameterized queries for database operations
+- Always use parameterized queries for database operations to prevent SQL injection
+- Validate and sanitize user input for display to prevent XSS attacks
 - Implement proper authentication and authorization
 - Validate file uploads if applicable
 - Use HTTPS for sensitive operations
